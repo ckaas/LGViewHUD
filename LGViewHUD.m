@@ -144,13 +144,19 @@ static LGViewHUD* defaultHUD = nil;
     UIBezierPath* bPath = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:kHUDCornerRadius];
     [_hudColor setFill];
     [bPath fill];
+
+    [[UIColor darkGrayColor] setStroke];
+    bPath.lineWidth = 1;
+    //bPath.lineJoinStyle = kCGLineJoinBevel;
+    [bPath stroke];
+    rect = CGRectInset(rect, 2, 2);
     
     CGFloat imgCanvasHeight = rect.size.height / 2.0;
     
-    CGFloat labelsWidth = self.frame.size.width - 2*labelSideMargins;
+    CGFloat labelsWidth = rect.size.width - 2*labelSideMargins;
     CGFloat topLabelHeight = [_topText heightForWidth:labelsWidth usingFont:_labelsFont];
     
-    CGFloat labelsMaxHeight = (self.frame.size.height - imgCanvasHeight) / 2.0;
+    CGFloat labelsMaxHeight = (rect.size.height - imgCanvasHeight) / 2.0;
     NSDictionary* attrs = nil;
     NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.alignment = NSTextAlignmentCenter;
@@ -174,8 +180,8 @@ static LGViewHUD* defaultHUD = nil;
     [paragraphStyle release];
     
     if (!activityIndicatorOn) {
-        CGRect imageFrame = CGRectMake((self.frame.size.width - _image.size.width) /2.0,
-                                       (self.frame.size.height - _image.size.height) / 2.0,
+        CGRect imageFrame = CGRectMake((rect.size.width - _image.size.width) /2.0,
+                                       (rect.size.height - _image.size.height) / 2.0,
                                        _image.size.width,
                                        _image.size.height);
         [_image drawInRect:imageFrame];
